@@ -62,6 +62,9 @@
         }
 
         .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 10px 16px;
             border: none;
             border-radius: 6px;
@@ -71,6 +74,7 @@
             cursor: pointer;
             pointer-events: auto;
             transition: background 0.2s ease;
+            z-index: 10;
         }
 
         body.dark .btn {
@@ -479,10 +483,12 @@
             opacity: 0;
             pointer-events: none;
             z-index: 998;
+            display: none;
         }
 
         .mars-people.move {
             animation: marsPeopleMove 1.5s ease forwards;
+            display: block;
         }
 
         @keyframes marsPeopleMove {
@@ -528,10 +534,12 @@
             pointer-events: none;
             z-index: 999;
             text-align: center;
+            display: none;
         }
 
         .result-text.show {
             animation: resultShow 0.8s ease forwards;
+            display: block;
         }
 
         @keyframes resultShow {
@@ -559,10 +567,12 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
+            display: none;
         }
 
         .countdown.show {
             opacity: 1;
+            display: block;
         }
 
         .explode-char {
@@ -617,10 +627,12 @@
             opacity: 0;
             transition: opacity 0.8s ease;
             white-space: pre;
+            display: none;
         }
 
         .turkey.show {
             opacity: 1;
+            display: block;
         }
 
         .turkey-brown {
@@ -675,10 +687,12 @@
             text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
             z-index: 10001;
             opacity: 0;
+            display: none;
         }
 
         .roach-text.show {
             animation: textShow 0.5s ease forwards;
+            display: block;
         }
 
         @keyframes textShow {
@@ -699,10 +713,12 @@
             text-shadow: 0 0 30px rgba(255, 0, 0, 1);
             z-index: 10002;
             opacity: 0;
+            display: none;
         }
 
         .final-text.show {
             animation: finalTextShow 1s ease forwards;
+            display: block;
         }
 
         @keyframes finalTextShow {
