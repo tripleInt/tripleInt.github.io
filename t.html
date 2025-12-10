@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>火星tree之陋室树与古风小树的fall in love故事</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: "Consolas", monospace;
+            text-align: center;
+            padding: 20px 10px;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+            position: relative;
+        }
+
+        body.dark {
+            background: #1a1a2e;
+        }
+
+        /* 黑屏样式 */
+        body.black-screen {
+            background: #000 !important;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            min-height: 900px;
+        }
+
+        .main-title {
+            color: #2d3436;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            line-height: 1.3;
+        }
+
+        body.dark .main-title {
+            color: #fff;
+        }
+
+        .btn-group {
+            margin: 15px 0;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 999;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #2d3436;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: background 0.2s ease;
+        }
+
+        body.dark .btn {
+            background: #4a4e69;
+        }
+
+        .btn:hover {
+            background: #444;
+        }
+
+        body.dark .btn:hover {
+            background: #5a5e79;
+        }
+
+        .btn.active {
+            background: #ff6b6b;
+        }
+
+        body.dark .btn.active {
+            background: #ff8787;
+        }
+
+        .tree-box {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background: #fff;
+            display: inline-block;
+            box-shadow: 0 0 15px rgba(39, 174, 96, 0.3), 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: hidden;
+            z-index: 20;
+            pointer-events: auto;
+        }
+
+        #treeSimple {
+            top: 180px;
+        }
+
+        #treeBeauty {
+            top: 550px;
+        }
+
+        body.dark .tree-box {
+            background: #252a41;
+            box-shadow: 0 0 18px rgba(74, 222, 128, 0.4), 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tree-box.active {
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.6), 0 2px 12px rgba(0, 0, 0, 0.15);
+            border-color: rgba(46, 204, 113, 0.7);
+        }
+
+        .tree-box.active .simple-tree.color2 .tree-line,
+        .tree-box.active .beauty-tree.color2 .tree-line {
+            box-shadow: 0 0 20px rgba(26, 188, 156, 0.6), 0 2px 12px rgba(0, 0, 0, 0.15);
+            border-color: rgba(26, 188, 156, 0.7);
+        }
+
+        .tree-box.active .simple-tree.color3 .tree-line,
+        .tree-box.active .beauty-tree.color3 .tree-line {
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.6), 0 2px 12px rgba(0, 0, 0, 0.15);
+            border-color: rgba(52, 152, 219, 0.7);
+        }
+
+        body.dark .tree-box.active {
+            box-shadow: 0 0 22px rgba(94, 234, 212, 0.7), 0 2px 12px rgba(0, 0, 0, 0.25);
+            border-color: rgba(94, 234, 212, 0.8);
+        }
+
+        body.dark .tree-box.active .simple-tree.color2 .tree-line,
+        body.dark .tree-box.active .beauty-tree.color2 .tree-line {
+            box-shadow: 0 0 22px rgba(103, 232, 249, 0.7), 0 2px 12px rgba(0, 0, 0, 0.25);
+            border-color: rgba(103, 232, 249, 0.8);
+        }
+
+        body.dark .tree-box.active .simple-tree.color3 .tree-line,
+        body.dark .tree-box.active .beauty-tree.color3 .tree-line {
+            box-shadow: 0 0 22px rgba(129, 140, 248, 0.7), 0 2px 12px rgba(0, 0, 0, 0.25);
+            border-color: rgba(129, 140, 248, 0.8);
+        }
+
+        .simple-tree,
+        .beauty-tree {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.3;
+            text-align: left;
+            transition: color 0.5s ease;
+        }
+
+        .tree-line {
+            white-space: pre;
+            transition: all 0.5s ease;
+            opacity: 1;
+        }
+
+        body.dark .simple-tree,
+        body.dark .beauty-tree {
+            color: #4ade80;
+        }
+
+        .simple-tree.color1 .tree-line,
+        .beauty-tree.color1 .tree-line {
+            color: #2ecc71;
+        }
+
+        .simple-tree.color2 .tree-line,
+        .beauty-tree.color2 .tree-line {
+            color: #1abc9c;
+        }
+
+        .simple-tree.color3 .tree-line,
+        .beauty-tree.color3 .tree-line {
+            color: #3498db;
+        }
+
+        body.dark .simple-tree.color1 .tree-line,
+        body.dark .beauty-tree.color1 .tree-line {
+            color: #5eead4;
+        }
+
+        body.dark .simple-tree.color2 .tree-line,
+        body.dark .beauty-tree.color2 .tree-line {
+            color: #67e8f9;
+        }
+
+        body.dark .simple-tree.color3 .tree-line,
+        body.dark .beauty-tree.color3 .tree-line {
+            color: #818cf8;
+        }
+
+        .light {
+            animation: flash 0.8s infinite alternate;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+        }
+
+        .gold {
+            color: #ffd700;
+        }
+
+        .red {
+            color: #ff6b6b;
+        }
+
+        .cyan {
+            color: #4ecdc4;
+        }
+
+        .pink {
+            color: #ff79c6;
+        }
+
+        .purple {
+            color: #bd93f9;
+        }
+
+        body.dark .gold {
+            color: #fffacd;
+        }
+
+        body.dark .red {
+            color: #ff8787;
+        }
+
+        body.dark .cyan {
+            color: #67e8f9;
+        }
+
+        body.dark .pink {
+            color: #ff9de2;
+        }
+
+        body.dark .purple {
+            color: #c7a7fc;
+        }
+
+        /* 尺寸样式 */
+        .size-small .simple-tree .tree-line,
+        .size-small .beauty-tree .tree-line {
+            font-size: 14px;
+        }
+
+        .size-mid .simple-tree .tree-line,
+        .size-mid .beauty-tree .tree-line {
+            font-size: 18px;
+        }
+
+        .size-big .simple-tree .tree-line,
+        .size-big .beauty-tree .tree-line {
+            font-size: 22px;
+        }
+
+        .size-superbig .simple-tree .tree-line,
+        .size-superbig .beauty-tree .tree-line {
+            font-size: 180px;
+            line-height: 1;
+        }
+
+        .size-superbig #treeSimple {
+            top: 50%;
+            transform: translateX(-50%) translateY(-80%);
+        }
+
+        .size-superbig #treeBeauty {
+            display: none;
+        }
+
+        .shake .tree-line {
+            animation: shake 0.3s ease infinite alternate;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: rotate(-2deg);
+            }
+
+            100% {
+                transform: rotate(2deg);
+            }
+        }
+
+        .rotate-fast {
+            animation: rotateFast 0.5s linear infinite;
+        }
+
+        @keyframes rotateFast {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .tree-move {
+            animation: treeMove 6s ease forwards infinite;
+        }
+
+        @keyframes treeMove {
+            0% {
+                transform: translateX(-50%) rotate(0deg);
+            }
+
+            10% {
+                transform: translateX(calc(-50% - 60px)) rotate(-1deg);
+            }
+
+            20% {
+                transform: translateX(calc(-50% - 130px)) rotate(1deg);
+            }
+
+            30% {
+                transform: translateX(calc(-50% - 200px)) rotate(-0.5deg);
+            }
+
+            40% {
+                transform: translateX(calc(-50% - 200px)) translateY(-30px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateX(calc(-50% - 200px)) translateY(0) rotate(0.5deg);
+            }
+
+            60% {
+                transform: translateX(-50%) rotate(-1deg);
+            }
+
+            70% {
+                transform: translateX(calc(-50% + 200px)) rotate(1deg);
+            }
+
+            80% {
+                transform: translateX(calc(-50% + 200px)) translateY(-30px) rotate(0deg);
+            }
+
+            90% {
+                transform: translateX(calc(-50% + 200px)) translateY(0) rotate(-0.5deg);
+            }
+
+            100% {
+                transform: translateX(-50%) rotate(0deg);
+            }
+        }
+
+        .tree-leave-left {
+            animation: treeLeaveLeft 3s ease forwards;
+        }
+
+        @keyframes treeLeaveLeft {
+            0% {
+                transform: translateX(-50%);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(-200%);
+                opacity: 0;
+            }
+        }
+
+        /* 飘落元素样式 */
+        .snow-item,
+        .poop-item,
+        .mars-snow-item,
+        .aca-snow-item,
+        .saltfish-snow-item,
+        .elegant-snow-item {
+            position: fixed;
+            font-size: 16px;
+            font-weight: bold;
+            opacity: 0.85;
+            animation: fall 8s linear infinite;
+            top: -20px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .snow-item {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 15px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+        }
+
+        .mars-snow-item {
+            color: #ff4500;
+            text-shadow: 0 0 8px rgba(255, 69, 0, 1), 0 0 15px rgba(255, 69, 0, 0.8), 0 0 20px rgba(255, 69, 0, 0.6);
+        }
+
+        .poop-item {
+            color: #8b4513;
+            text-shadow: 0 0 8px rgba(160, 82, 45, 1), 0 0 15px rgba(160, 82, 45, 0.8), 0 0 20px rgba(160, 82, 45, 0.6);
+        }
+
+        .aca-snow-item {
+            color: #4ade80;
+            text-shadow: 0 0 8px rgba(74, 222, 128, 1), 0 0 15px rgba(74, 222, 128, 0.8), 0 0 20px rgba(74, 222, 128, 0.6);
+        }
+
+        .saltfish-snow-item {
+            color: #f97316;
+            text-shadow: 0 0 8px rgba(249, 115, 22, 1), 0 0 15px rgba(249, 115, 22, 0.8), 0 0 20px rgba(249, 115, 22, 0.6);
+        }
+
+        .elegant-snow-item {
+            color: #f0f0f0;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 15px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+        }
+
+        body.dark .elegant-snow-item {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 15px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        body.no-glow .tree-box {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body.no-glow .tree-box.active {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        body.no-glow .snow-item,
+        body.no-glow .poop-item,
+        body.no-glow .mars-snow-item,
+        body.no-glow .aca-snow-item,
+        body.no-glow .saltfish-snow-item,
+        body.no-glow .elegant-snow-item {
+            opacity: 0.6;
+            text-shadow: none;
+        }
+
+        .mars-people {
+            position: absolute;
+            left: calc(50% - 400px);
+            top: calc(50% + 120px);
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4500;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 998;
+        }
+
+        .mars-people.move {
+            animation: marsPeopleMove 1.5s ease forwards;
+        }
+
+        @keyframes marsPeopleMove {
+            0% {
+                opacity: 1;
+                left: calc(50% - 400px);
+            }
+
+            90% {
+                opacity: 1;
+                left: calc(50% + 400px);
+            }
+
+            100% {
+                opacity: 0;
+                left: calc(50% + 400px);
+            }
+        }
+
+        .fire-icon {
+            color: #ff6b6b;
+            text-shadow: 0 0 8px rgba(255, 107, 107, 1), 0 0 15px rgba(255, 107, 107, 0.8);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+        }
+
+        .fire-icon.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-shadow: 0 0 15px rgba(255, 107, 107, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+            text-align: center;
+        }
+
+        .result-text.show {
+            animation: resultShow 0.8s ease forwards;
+        }
+
+        @keyframes resultShow {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .countdown {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .countdown.show {
+            opacity: 1;
+        }
+
+        .explode-char {
+            display: inline-block;
+            transition: transform 1.5s ease-out, opacity 1.5s ease-out;
+        }
+
+        /* 饿按钮样式 */
+        .dinner-text {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            font-weight: bold;
+            color: #2d3436;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.5s ease;
+            padding: 15px 30px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .dinner-text {
+            color: #fff;
+            background: rgba(37, 42, 65, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dinner-text:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .dinner-text:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 圣诞火鸡 */
+        .turkey {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.2;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            white-space: pre;
+        }
+
+        .turkey.show {
+            opacity: 1;
+        }
+
+        .turkey-brown {
+            color: #8B4513;
+        }
+
+        .turkey-yellow {
+            color: #FFD700;
+        }
+
+        .turkey-red {
+            color: #CD5C5C;
+        }
+
+        body.dark .turkey-brown {
+            color: #A0522D;
+        }
+
+        body.dark .turkey-yellow {
+            color: #FFEC8B;
+        }
+
+        body.dark .turkey-red {
+            color: #E06666;
+        }
+
+        /* 蟑螂样式 - 无动画，固定随机可见位置 */
+        .cockroach {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: auto;
+            z-index: 9999;
+            will-change: transform;
+            backface-visibility: hidden;
+            perspective: 1000px;
+            /* 强制显示，确保可见 */
+            display: block;
+            visibility: visible;
+        }
+
+
+
+        /* 蟑螂文字 */
+        .roach-text {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            z-index: 10001;
+            opacity: 0;
+        }
+
+        .roach-text.show {
+            animation: textShow 0.5s ease forwards;
+        }
+
+        @keyframes textShow {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 最终文字 */
+        .final-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 1);
+            z-index: 10002;
+            opacity: 0;
+        }
+
+        .final-text.show {
+            animation: finalTextShow 1s ease forwards;
+        }
+
+        @keyframes finalTextShow {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="size-mid">
+    <div class="container">
+        <div class="main-title">火星tree之陋室树与古风小树的fall in love故事</div>
+
+        <div class="btn-group">
+            <button class="btn" id="btnSmall">小尺寸</button>
+            <button class="btn active" id="btnMid">中尺寸</button>
+            <button class="btn" id="btnBig">大尺寸</button>
+            <button class="btn" id="btnSuperBig">超大杯</button>
+            <button class="btn" id="btnDark">深浅色切换</button>
+            <button class="btn active" id="btnSnow">雪花</button>
+            <button class="btn" id="btnMarsSnow">火星雪花</button>
+            <button class="btn" id="btnAcaSnow">阿草雪花</button>
+            <button class="btn" id="btnSaltfishSnow">咸鱼雪花</button>
+            <button class="btn" id="btnPoop">粑粑</button>
+            <button class="btn" id="btnShake">圣诞树摇摆</button>
+            <button class="btn" id="btnWindmill">大风车</button>
+            <button class="btn" id="btnElegantTree">高雅人树</button>
+            <button class="btn" id="btnDontClick">不要点</button>
+            <button class="btn" id="btnGlow">开启/关闭发光</button>
+            <button class="btn" id="btnHungry">饿</button>
+            <button class="btn" id="btnVishdal">维什戴尔</button>
+        </div>
+
+        <div class="tree-box" id="treeSimple">
+            <div class="simple-tree" id="simpleTree">
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;&nbsp;*</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;***</div>
+                <div class="tree-line">&nbsp;&nbsp;*****</div>
+                <div class="tree-line">&nbsp;*******</div>
+                <div class="tree-line">*********</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;***</div>
+                <div class="tree-line">&nbsp;&nbsp;*****</div>
+                <div class="tree-line">&nbsp;*******</div>
+                <div class="tree-line">*********</div>
+                <div class="tree-line">***********</div>
+                <div class="tree-line">&nbsp;&nbsp;*****</div>
+                <div class="tree-line">&nbsp;*******</div>
+                <div class="tree-line">*********</div>
+                <div class="tree-line">***********</div>
+                <div class="tree-line">*************</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;***</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;***</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;***</div>
+            </div>
+        </div>
+
+        <div class="tree-box" id="treeBeauty">
+            <div class="beauty-tree" id="beautyTree">
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="light gold">O</span>*<span
+                        class="light gold">O</span></div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;&nbsp;***</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;<span class="light pink">O</span>*****<span
+                        class="light pink">O</span></div>
+                <div class="tree-line">&nbsp;&nbsp;*******</div>
+                <div class="tree-line">&nbsp;&nbsp;<span class="light red">@</span>*********<span
+                        class="light red">@</span></div>
+                <div class="tree-line">&nbsp;***********</div>
+                <div class="tree-line">&nbsp;<span class="light purple">@</span>*************<span
+                        class="light purple">@</span></div>
+                <div class="tree-line">***************</div>
+                <div class="tree-line"><span class="light cyan">#</span>*****************<span
+                        class="light cyan">#</span></div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;*****</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;*****</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;*****</div>
+                <div class="tree-line">&nbsp;&nbsp;&nbsp;*****</div>
+                <div class="tree-line">&nbsp;&nbsp;*******</div>
+                <div class="tree-line">&nbsp;&nbsp;*******</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="roach-text" id="roachText">你🐎很多吗，就敢点</div>
+    <div class="final-text" id="finalText">很显然你现在没有🐎了</div>
+    <div class="mars-people" id="marsPeople">火星人</div>
+    <div class="result-text" id="resultText">心理委员俺好得劲，哦哦哦，得劲咯╰🤓╯</div>
+    <div class="countdown" id="countdown">5</div>
+    <div class="dinner-text" id="dinnerText" style="display: none;"></div>
+    <div class="turkey" id="turkey"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 状态变量
+            let isDark = false, isShaking = false, isGlowing = false, isRotating = false, isElegant = false;
+            let fallType = 'snow', isDontClickRunning = false, isVishdalRunning = false;
+            let treeClickCount = 0;
+            const MAX_CLICK_COUNT = 5;
+
+            // 获取DOM元素
+            const btnSmall = document.getElementById('btnSmall');
+            const btnMid = document.getElementById('btnMid');
+            const btnBig = document.getElementById('btnBig');
+            const btnSuperBig = document.getElementById('btnSuperBig');
+            const btnDark = document.getElementById('btnDark');
+            const btnSnow = document.getElementById('btnSnow');
+            const btnMarsSnow = document.getElementById('btnMarsSnow');
+            const btnAcaSnow = document.getElementById('btnAcaSnow');
+            const btnSaltfishSnow = document.getElementById('btnSaltfishSnow');
+            const btnPoop = document.getElementById('btnPoop');
+            const btnShake = document.getElementById('btnShake');
+            const btnWindmill = document.getElementById('btnWindmill');
+            const btnElegantTree = document.getElementById('btnElegantTree');
+            const btnDontClick = document.getElementById('btnDontClick');
+            const btnGlow = document.getElementById('btnGlow');
+            const btnHungry = document.getElementById('btnHungry');
+            const btnVishdal = document.getElementById('btnVishdal');
+            const treeSimple = document.getElementById('treeSimple');
+            const treeBeauty = document.getElementById('treeBeauty');
+            const simpleTree = document.getElementById('simpleTree');
+            const beautyTree = document.getElementById('beautyTree');
+            const marsPeople = document.getElementById('marsPeople');
+            const resultText = document.getElementById('resultText');
+            const countdown = document.getElementById('countdown');
+            const body = document.body;
+            const dinnerText = document.getElementById('dinnerText');
+            const turkey = document.getElementById('turkey');
+            const roachText = document.getElementById('roachText');
+            const finalText = document.getElementById('finalText');
+
+            // 设置尺寸
+            function setSize(size) {
+                if (isDontClickRunning || isVishdalRunning) return;
+                [btnSmall, btnMid, btnBig, btnSuperBig].forEach(btn => btn.classList.remove('active'));
+                switch (size) {
+                    case 'small': btnSmall.classList.add('active'); break;
+                    case 'mid': btnMid.classList.add('active'); break;
+                    case 'big': btnBig.classList.add('active'); break;
+                    case 'superbig': btnSuperBig.classList.add('active'); break;
+                }
+                body.classList.remove('size-small', 'size-mid', 'size-big', 'size-superbig');
+                body.classList.add(`size-${size}`);
+
+                // 超大杯特殊处理
+                if (size === 'superbig') {
+                    treeSimple.style.transform = 'translateX(-50%) translateY(-80%)';
+                    treeBeauty.style.display = 'none';
+                } else {
+                    treeSimple.style.transform = 'translateX(-50%)';
+                    treeBeauty.style.display = 'inline-block';
+                }
+            }
+
+            // 深浅色切换
+            function toggleDark() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                isDark = !isDark;
+                body.classList.toggle('dark');
+            }
+
+            // 切换飘落类型
+            function switchSnow() { changeFallType('snow', btnSnow); }
+            function switchMarsSnow() { changeFallType('marsSnow', btnMarsSnow); }
+            function switchAcaSnow() { changeFallType('acaSnow', btnAcaSnow); }
+            function switchSaltfishSnow() { changeFallType('saltfishSnow', btnSaltfishSnow); }
+            function switchPoop() { changeFallType('poop', btnPoop); }
+
+            function changeFallType(type, activeBtn) {
+                if (isDontClickRunning || isVishdalRunning) return;
+                fallType = type;
+                updateSnowBtnActive(activeBtn);
+                clearFall();
+                createFall();
+            }
+
+            function updateSnowBtnActive(activeBtn) {
+                [btnSnow, btnMarsSnow, btnAcaSnow, btnSaltfishSnow, btnPoop, btnElegantTree].forEach(btn => btn.classList.remove('active'));
+                activeBtn.classList.add('active');
+            }
+
+            // 高雅人树
+            function toggleElegantTree() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                isElegant = !isElegant;
+                if (isElegant) {
+                    changeFallType('elegantSnow', btnElegantTree);
+                    treeSimple.classList.add('tree-move');
+                    treeBeauty.classList.add('tree-move');
+                    btnElegantTree.classList.add('active');
+                } else {
+                    changeFallType('snow', btnSnow);
+                    treeSimple.classList.remove('tree-move');
+                    treeBeauty.classList.remove('tree-move');
+                    btnElegantTree.classList.remove('active');
+                }
+            }
+
+            // 圣诞树摇摆
+            function toggleShake() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                isShaking = !isShaking;
+                simpleTree.classList.toggle('shake', isShaking);
+                beautyTree.classList.toggle('shake', isShaking);
+                btnShake.classList.toggle('active', isShaking);
+            }
+
+            // 大风车
+            function toggleWindmill() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                isRotating = !isRotating;
+                treeSimple.classList.toggle('rotate-fast', isRotating);
+                treeBeauty.classList.toggle('rotate-fast', isRotating);
+                btnWindmill.classList.toggle('active', isRotating);
+            }
+
+            // 发光切换
+            function toggleGlow() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                isGlowing = !isGlowing;
+                body.classList.toggle('no-glow');
+            }
+
+            // 树点击变色+躲避
+            function changeColorAndAvoid(tree, box, e) {
+                if (isDontClickRunning || isVishdalRunning) return;
+                avoidClick(box, e);
+                if (tree.classList.contains('color1')) {
+                    tree.classList.remove('color1');
+                    tree.classList.add('color2');
+                } else if (tree.classList.contains('color2')) {
+                    tree.classList.remove('color2');
+                    tree.classList.add('color3');
+                } else if (tree.classList.contains('color3')) {
+                    tree.classList.remove('color3');
+                    box.classList.remove('active');
+                    return;
+                }
+                box.classList.add('active');
+            }
+
+            // 躲避点击
+            function avoidClick(box, e) {
+                const boxRect = box.getBoundingClientRect();
+                const boxX = boxRect.left + boxRect.width / 2;
+                const boxY = boxRect.top + boxRect.height / 2;
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                const moveDistance = 30;
+
+                const computedStyle = window.getComputedStyle(box);
+                const transform = computedStyle.transform;
+                let currentX = -boxRect.width / 2;
+                let currentY = 0;
+                if (transform !== 'none') {
+                    const matrix = new DOMMatrix(transform);
+                    currentX = matrix.m41;
+                    currentY = matrix.m42;
+                }
+
+                let newX = currentX, newY = currentY;
+                if (mouseX < boxX) newX += moveDistance;
+                else if (mouseX > boxX) newX -= moveDistance;
+                if (mouseY < boxY) newY += moveDistance;
+                else if (mouseY > boxY) newY -= moveDistance;
+
+                box.style.transform = `translate(${newX}px, ${newY}px)`;
+            }
+
+            // 清除飘落元素
+            function clearFall() {
+                document.querySelectorAll('.snow-item, .poop-item, .mars-snow-item, .aca-snow-item, .saltfish-snow-item, .elegant-snow-item').forEach(el => el.remove());
+            }
+
+            // 创建飘落元素
+            function createFall() {
+                const count = 40;
+                let cls = '', icon = '';
+
+                switch (fallType) {
+                    case 'snow': cls = 'snow-item'; icon = '❄️'; break;
+                    case 'marsSnow': cls = 'mars-snow-item'; icon = '火星'; break;
+                    case 'acaSnow': cls = 'aca-snow-item'; icon = '🌱'; break;
+                    case 'saltfishSnow': cls = 'saltfish-snow-item'; icon = '🐟'; break;
+                    case 'poop': cls = 'poop-item'; icon = '💩'; break;
+                    case 'elegantSnow': cls = 'elegant-snow-item'; icon = '🐧'; break;
+                }
+
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.className = cls;
+                    el.innerText = icon;
+                    el.style.left = Math.random() * 100 + '%';
+                    el.style.animationDuration = (6 + Math.random() * 4) + 's';
+                    body.appendChild(el);
+                }
+            }
+
+            // 清除蟑螂
+            function clearCockroaches() {
+                if (roachAnimId) {
+                    cancelAnimationFrame(roachAnimId);
+                    roachAnimId = null;
+                }
+                document.querySelectorAll('.cockroach').forEach(el => el.remove());
+                document.querySelectorAll('.trail-item').forEach(el => el.remove());
+                roachText.classList.remove('show');
+                finalText.classList.remove('show');
+                body.classList.remove('black-screen');
+            }
+
+            // 动画帧ID
+            let roachAnimId;
+
+            // 创建蟑螂（带有随机移动效果）
+            function createCockroaches() {
+                clearCockroaches();
+                const count = 20; // 1只蟑螂
+                const roachIcon = '🪳';
+                const speed = 1; // 移动速度
+
+                // 批量创建DOM元素
+                const fragment = document.createDocumentFragment();
+                const roaches = [];
+
+                for (let i = 0; i < count; i++) {
+                    const roach = document.createElement('div');
+                    roach.className = 'cockroach';
+                    roach.innerText = roachIcon;
+
+                    // 初始位置 (5% - 95%)
+                    let x = Math.random() * (window.innerWidth * 0.9) + window.innerWidth * 0.05;
+                    let y = Math.random() * (window.innerHeight * 0.9) + window.innerHeight * 0.05;
+
+                    // 初始速度
+                    let angle = Math.random() * Math.PI * 2;
+                    let vx = Math.cos(angle) * speed;
+                    let vy = Math.sin(angle) * speed;
+
+                    roach.style.left = x + 'px';
+                    roach.style.top = y + 'px';
+
+                    // 绑定点击事件
+                    roach.addEventListener('click', handleRoachClick);
+
+                    fragment.appendChild(roach);
+                    roaches.push({ el: roach, x, y, vx, vy, changeDirTimer: 0 });
+                }
+
+                // 强制添加到body
+                body.appendChild(fragment);
+
+                // 动画循环
+                function animate() {
+                    const width = window.innerWidth;
+                    const height = window.innerHeight;
+                    const margin = 50;
+
+                    roaches.forEach(r => {
+                        // 随机改变方向
+                        r.changeDirTimer++;
+                        if (r.changeDirTimer > 60 + Math.random() * 100) {
+                            r.changeDirTimer = 0;
+                            let angle = Math.random() * Math.PI * 2;
+                            r.vx = Math.cos(angle) * speed * (0.8 + Math.random() * 0.4);
+                            r.vy = Math.sin(angle) * speed * (0.8 + Math.random() * 0.4);
+                        }
+
+                        // 更新位置
+                        r.x += r.vx;
+                        r.y += r.vy;
+
+                        // 边界反弹
+                        if (r.x < margin) { r.x = margin; r.vx *= -1; }
+                        else if (r.x > width - margin) { r.x = width - margin; r.vx *= -1; }
+
+                        if (r.y < margin) { r.y = margin; r.vy *= -1; }
+                        else if (r.y > height - margin) { r.y = height - margin; r.vy *= -1; }
+
+                        // 计算旋转 (头朝移动方向)
+                        const deg = Math.atan2(r.vy, r.vx) * 180 / Math.PI;
+                        r.el.style.transform = `translate(-50%, -50%) rotate(${deg + 135}deg)`;
+
+                        r.el.style.left = r.x + 'px';
+                        r.el.style.top = r.y + 'px';
+
+                        // 生成轨迹 (每10帧生成一次)
+                        if (r.changeDirTimer % 100 === 0) {
+                            createTrail(r.x, r.y);
+                        }
+                    });
+
+                    roachAnimId = requestAnimationFrame(animate);
+                }
+
+                animate();
+            }
+
+            // 获取当前掉落物图标
+            function getCurrentFallIcon() {
+                switch (fallType) {
+                    case 'snow': return '❄️';
+                    case 'marsSnow': return '火星';
+                    case 'acaSnow': return '🌱';
+                    case 'saltfishSnow': return '🐟';
+                    case 'poop': return '💩';
+                    case 'elegantSnow': return '🐧';
+                    default: return '❄️';
+                }
+            }
+
+            // 创建轨迹
+            function createTrail(x, y) {
+                const trail = document.createElement('div');
+                trail.className = 'trail-item';
+                trail.innerText = getCurrentFallIcon();
+                trail.style.position = 'fixed';
+                trail.style.left = x + 'px';
+                trail.style.top = y + 'px';
+                trail.style.fontSize = '20px';
+                trail.style.opacity = '0.6';
+                trail.style.pointerEvents = 'none';
+                trail.style.zIndex = '9998';
+                trail.style.transition = 'opacity 3s ease';
+                trail.style.transform = 'translate(-50%, -50%)';
+
+                body.appendChild(trail);
+
+                // 3秒后消失
+                setTimeout(() => {
+                    trail.style.opacity = '0';
+                    setTimeout(() => trail.remove(), 3000);
+                }, 100);
+            }
+
+            // 点击蟑螂处理
+            function handleRoachClick(e) {
+                if (isVishdalRunning) return;
+                isVishdalRunning = true;
+
+                // 停止移动
+                if (roachAnimId) {
+                    cancelAnimationFrame(roachAnimId);
+                    roachAnimId = null;
+                }
+
+                // 禁用所有按钮
+                const allBtns = [btnSmall, btnMid, btnBig, btnSuperBig, btnDark, btnSnow, btnMarsSnow, btnAcaSnow, btnSaltfishSnow, btnPoop, btnShake, btnWindmill, btnElegantTree, btnDontClick, btnGlow, btnHungry, btnVishdal];
+                allBtns.forEach(btn => {
+                    btn.disabled = true;
+                    btn.style.pointerEvents = 'none'; // 额外禁用点击
+                });
+
+                const clickedRoach = e.target;
+                // 隐藏其他蟑螂（这里只有1只）
+                const allRoaches = document.querySelectorAll('.cockroach');
+                allRoaches.forEach(roach => {
+                    if (roach !== clickedRoach) roach.style.display = 'none';
+                });
+
+                // 逐渐变大并移动到中间回正
+                clickedRoach.style.transition = 'all 5s ease-in-out';
+                clickedRoach.style.left = '50%';
+                clickedRoach.style.top = '50%';
+                clickedRoach.style.transform = 'translate(-50%, -50%) scale(10) rotate(0deg)';
+                clickedRoach.style.zIndex = '10000';
+
+                // 显示红色文字
+                roachText.classList.add('show');
+
+                // 5秒后爆炸+黑屏
+                setTimeout(() => {
+                    clickedRoach.innerText = '💥';
+                    explodeRoach(clickedRoach);
+
+                    setTimeout(() => {
+                        body.classList.add('black-screen');
+                        roachText.classList.remove('show');
+                        finalText.classList.add('show');
+
+                        // 10秒后恢复
+                        setTimeout(() => {
+                            clearCockroaches();
+                            body.classList.remove('black-screen');
+                            isVishdalRunning = false;
+                            // 恢复按钮
+                            allBtns.forEach(btn => {
+                                btn.disabled = false;
+                                btn.style.pointerEvents = 'auto';
+                            });
+                        }, 10000);
+                    }, 1000);
+                }, 5000);
+            }
+
+            // 蟑螂爆炸效果
+            function explodeRoach(roach) {
+                const rect = roach.getBoundingClientRect();
+                const rects = [];
+
+                // 生成爆炸粒子
+                for (let i = 0; i < 80; i++) {
+                    rects.push({
+                        x: rect.left + rect.width / 2,
+                        y: rect.top + rect.height / 2,
+                        text: '💥',
+                        color: '#ff0000',
+                        fontSize: '48px',
+                        isElement: false
+                    });
+                }
+
+                roach.style.opacity = 0;
+
+                const fragment = document.createDocumentFragment();
+                const activeParticles = [];
+
+                rects.forEach(info => {
+                    const p = document.createElement('div');
+                    p.style.position = 'fixed';
+                    p.style.left = info.x + 'px';
+                    p.style.top = info.y + 'px';
+                    p.style.pointerEvents = 'none';
+                    p.style.zIndex = '9999';
+                    p.style.transition = 'none';
+                    p.textContent = info.text;
+                    p.style.color = info.color;
+                    p.style.fontSize = info.fontSize;
+                    p.style.fontWeight = 'bold';
+                    p.style.willChange = 'transform, opacity';
+
+                    fragment.appendChild(p);
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 30 + Math.random() * 40;
+
+                    activeParticles.push({
+                        el: p,
+                        x: info.x,
+                        y: info.y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        gravity: 0.3,
+                        bounceCount: 0,
+                        opacity: 1,
+                        rotation: 0,
+                        vRotation: (Math.random() - 0.5) * 15
+                    });
+                });
+
+                document.body.appendChild(fragment);
+
+                function animate() {
+                    let allFinished = true;
+                    const width = window.innerWidth;
+                    const height = window.innerHeight;
+
+                    activeParticles.forEach(p => {
+                        if (p.opacity <= 0) return;
+                        allFinished = false;
+
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += p.gravity;
+                        p.rotation += p.vRotation;
+
+                        let bounced = false;
+
+                        if (p.x < 0) { p.x = 0; p.vx *= -1; bounced = true; }
+                        else if (p.x > width - 20) { p.x = width - 20; p.vx *= -1; bounced = true; }
+                        if (p.y < 0) { p.y = 0; p.vy *= -1; bounced = true; }
+                        else if (p.y > height - 20) { p.y = height - 20; p.vy *= -1; bounced = true; }
+
+                        if (bounced) p.bounceCount++;
+                        if (p.bounceCount >= 1) p.opacity -= 0.01;
+
+                        p.el.style.transform = `translate3d(${p.x - parseFloat(p.el.style.left)}px, ${p.y - parseFloat(p.el.style.top)}px, 0) rotate(${p.rotation}deg)`;
+                        p.el.style.opacity = p.opacity;
+                    });
+
+                    if (!allFinished) requestAnimationFrame(animate);
+                    else activeParticles.forEach(p => p.el.remove());
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            // 维什戴尔按钮点击（创建随机位置蟑螂）
+            function handleVishdal() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                console.log('点击维什戴尔，创建随机位置蟑螂'); // 调试日志
+                createCockroaches();
+            }
+
+            // 不要点按钮处理
+            function handleDontClick() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                isDontClickRunning = true;
+                const btns = [btnShake, btnWindmill, btnElegantTree, btnSnow, btnMarsSnow, btnAcaSnow, btnSaltfishSnow, btnPoop, btnDontClick, btnHungry, btnVishdal];
+                btns.forEach(btn => btn.disabled = true);
+
+                marsPeople.classList.add('move');
+                setTimeout(() => {
+                    marsPeople.classList.remove('move');
+
+                    const simpleTreeLines = simpleTree.querySelectorAll('.tree-line');
+                    const beautyTreeLines = beautyTree.querySelectorAll('.tree-line');
+                    const simpleLineCount = simpleTreeLines.length;
+                    const beautyLineCount = beautyTreeLines.length;
+                    const maxLineCount = Math.max(simpleLineCount, beautyLineCount);
+
+                    for (let i = 0; i < maxLineCount; i++) {
+                        setTimeout(() => {
+                            const simpleIndex = simpleLineCount - 1 - i;
+                            if (simpleIndex >= 0) {
+                                const simpleLine = simpleTreeLines[simpleIndex];
+                                const lineLength = simpleLine.innerText.length;
+                                let fireStr = '';
+                                for (let j = 0; j < lineLength; j++) {
+                                    fireStr += '<span class="fire-icon">🔥</span>';
+                                }
+                                simpleLine.innerHTML = fireStr;
+                                setTimeout(() => {
+                                    simpleLine.querySelectorAll('.fire-icon').forEach(icon => icon.classList.add('show'));
+                                }, 50);
+                            }
+
+                            const beautyIndex = beautyLineCount - 1 - i;
+                            if (beautyIndex >= 0) {
+                                const beautyLine = beautyTreeLines[beautyIndex];
+                                const lineLength = beautyLine.innerText.length;
+                                let fireStr = '';
+                                for (let j = 0; j < lineLength; j++) {
+                                    fireStr += '<span class="fire-icon">🔥</span>';
+                                }
+                                beautyLine.innerHTML = fireStr;
+                                setTimeout(() => {
+                                    beautyLine.querySelectorAll('.fire-icon').forEach(icon => icon.classList.add('show'));
+                                }, 50);
+                            }
+
+                            if (i === maxLineCount - 1) {
+                                setTimeout(() => {
+                                    treeSimple.style.opacity = 0;
+                                    treeBeauty.style.opacity = 0;
+                                    setTimeout(() => {
+                                        treeSimple.style.display = 'none';
+                                        treeBeauty.style.display = 'none';
+                                        resultText.classList.add('show');
+                                        isDontClickRunning = false;
+                                        btns.forEach(btn => btn.disabled = false);
+                                    }, 500);
+                                }, 500);
+                            }
+                        }, i * 400);
+                    }
+                }, 1600);
+            }
+
+            // 饿按钮处理
+            function handleHungry() {
+                if (isDontClickRunning || isVishdalRunning) return;
+                isDontClickRunning = true;
+                const btns = [btnShake, btnWindmill, btnElegantTree, btnSnow, btnMarsSnow, btnAcaSnow, btnSaltfishSnow, btnPoop, btnDontClick, btnHungry, btnVishdal];
+                btns.forEach(btn => btn.disabled = true);
+
+                dinnerText.style.display = 'none';
+                turkey.classList.remove('show');
+
+                treeSimple.style.display = 'inline-block';
+                treeBeauty.style.display = 'inline-block';
+                treeSimple.style.opacity = 1;
+                treeBeauty.style.opacity = 1;
+                treeSimple.style.transform = 'translateX(-50%)';
+                treeBeauty.style.transform = 'translateX(-50%)';
+                treeSimple.classList.remove('tree-leave-left');
+                treeBeauty.classList.remove('tree-leave-left');
+                void treeSimple.offsetWidth;
+                void treeBeauty.offsetWidth;
+
+                treeSimple.classList.add('tree-leave-left');
+                treeBeauty.classList.add('tree-leave-left');
+
+                setTimeout(() => {
+                    dinnerText.innerText = '圣诞树拒绝与你共进晚餐';
+                    dinnerText.style.display = 'block';
+                    isDontClickRunning = false;
+                    btns.forEach(btn => btn.disabled = false);
+                }, 3000);
+            }
+
+            // 火鸡点击处理
+            dinnerText.addEventListener('click', function () {
+                dinnerText.innerText = '但火星人不会☝🏻🤓嗟 来食';
+                const turkeyHTML = `
+<span class="turkey-red">  🐔  </span>
+<span class="turkey-brown"> /    \\ </span>
+<span class="turkey-brown">/      \\</span>
+<span class="turkey-brown">|  🦃  |</span>
+<span class="turkey-brown">|      |</span>
+<span class="turkey-brown">|      |</span>
+<span class="turkey-yellow"> \\    / </span>
+<span class="turkey-yellow">  \\  /  </span>
+<span class="turkey-yellow">   ||   </span>
+<span class="turkey-yellow">   ||   </span>
+                `;
+                turkey.innerHTML = turkeyHTML;
+                turkey.classList.add('show');
+            });
+
+            // 树点击事件
+            treeSimple.addEventListener('click', (e) => changeColorAndAvoid(simpleTree, treeSimple, e));
+            treeBeauty.addEventListener('click', (e) => changeColorAndAvoid(beautyTree, treeBeauty, e));
+
+            // 绑定按钮事件
+            btnSmall.onclick = () => setSize('small');
+            btnMid.onclick = () => setSize('mid');
+            btnBig.onclick = () => setSize('big');
+            btnSuperBig.onclick = () => setSize('superbig');
+            btnDark.onclick = toggleDark;
+            btnSnow.onclick = switchSnow;
+            btnMarsSnow.onclick = switchMarsSnow;
+            btnAcaSnow.onclick = switchAcaSnow;
+            btnSaltfishSnow.onclick = switchSaltfishSnow;
+            btnPoop.onclick = switchPoop;
+            btnShake.onclick = toggleShake;
+            btnWindmill.onclick = toggleWindmill;
+            btnElegantTree.onclick = toggleElegantTree;
+            btnDontClick.onclick = handleDontClick;
+            btnGlow.onclick = toggleGlow;
+            btnHungry.onclick = handleHungry;
+            btnVishdal.onclick = handleVishdal;
+
+            // 初始化飘落
+            createFall();
+        });
+    </script>
+</body>
+
+</html>
